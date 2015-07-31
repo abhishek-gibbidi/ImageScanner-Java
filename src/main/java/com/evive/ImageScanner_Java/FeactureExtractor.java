@@ -54,15 +54,15 @@ public class FeactureExtractor {
             //Remove all the squares which contain non numerical values.
             sqr1 = ProcessForm.removeNonNumeric(sqr1);
             
-            
             final String COMMA_DELIMITER = ",";
             final String NEW_LINE_SEPARATOR = "\n";
             LOG.info("Writing to csv");
             final Path path = Paths.get(filename);
+            
+            //Write to a csv file
+
             try (BufferedWriter writer = Files.newBufferedWriter(path)) {
                 for (int i = 0; i < sqr1.size(); i++) {
-                    // LOG.info("Squares : {}",sqr1.get(i));
-                    
                     //Extract a part of the image(Form) i.e the square using the Points.
                     final MatOfPoint mat = new MatOfPoint();
                     mat.fromList(sqr1.get(i).getRect());
@@ -70,7 +70,7 @@ public class FeactureExtractor {
                     final Mat roi = new Mat(image, rect);
                     //String name = i + ".jpg";
                     //Highgui.imwrite(name,roi);
-
+                    
                     //Extract the HOG feature vector of the ROI. 
                     final MatOfFloat descriptor = FeactureExtractor.getHOGFeatures(roi);
                     final List<Float> featureVector = descriptor.toList();
